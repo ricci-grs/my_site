@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@astrojs/vercel": "^8.1.5",
-    "@types/node": "^24.0.0",
+    "@types/node": "^24.0.3",
     "prettier": "^3.5.2",
     "prettier-plugin-astro": "^0.14.1"
   }
