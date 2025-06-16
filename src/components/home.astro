@@ -1,7 +1,11 @@
 ---
-import LetterGlitch from "../React/LetterGlitch.tsx";
+import ImageCarousel from "../React/ImageCarousel.tsx";
 import LogoWall from "../components/logoWall.astro";
 import SkillsList from "../React/SkillsList.tsx";
+
+const images = [
+  "/img/development-1.jpg",
+]
 ---
 
 <section class="text-[var(--white)] mt-12 md:mt-0" id="home">
@@ -60,24 +64,6 @@ import SkillsList from "../React/SkillsList.tsx";
             ></path>
           </svg>
         </a>
-        <a
-          target="_blank"
-          href="https://mail.google.com/mail/?view=cm&fs=1&to=ricci.enrico23+info@gmail.com&su=Hey%20Enrico!"
-          aria-label="Email"
-          class="text-[var(--white-icon)] hover:text-white transition duration-300 ease-in-out border border-1 border-[var(--white-icon-tr)] p-3 rounded-xl bg-[#1414149c] hover:bg-[var(--white-icon-tr)]"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="2.1em"
-            height="2.1em"
-            viewBox="0 0 24 24"
-          >
-            <path
-              fill="currentColor"
-              d="m18.73 5.41l-1.28 1L12 10.46L6.55 6.37l-1.28-1A2 2 0 0 0 2 7.05v11.59A1.36 1.36 0 0 0 3.36 20h3.19v-7.72L12 16.37l5.45-4.09V20h3.19A1.36 1.36 0 0 0 22 18.64V7.05a2 2 0 0 0-3.27-1.64"
-            ></path>
-          </svg>
-        </a>
       </div>
     </div>
 
@@ -88,14 +74,7 @@ import SkillsList from "../React/SkillsList.tsx";
       <div
         class="flex justify-center md:w-full md:h-[292px] size-[290px] pt-3 md:pt-9 md:ml-16"
       >
-        <LetterGlitch
-          client:load
-          glitchColors={["#5e4491", "#A476FF", "#241a38"]}
-          glitchSpeed={33}
-          centerVignette={false}
-          outerVignette={true}
-          smooth={true}
-        />
+        <ImageCarousel images={images} />
       </div>
     </div>
   </div>
