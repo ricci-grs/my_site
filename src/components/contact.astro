@@ -61,35 +61,46 @@
   </div>
 </section>
 
+<script
+  src="https://www.google.com/recaptcha/api.js?render=6Ldn92IrAAAAAE-6B4wBtYpJ8H-SW46hgX0mWkQz"
+></script>
+
 <script type="module" is:inline>
   const form = document.getElementById("contact-form");
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
+    grecaptcha.ready(async () => {
+      const token = await grecaptcha.execute(
+        "6Ldn92IrAAAAAE-6B4wBtYpJ8H-SW46hgX0mWkQz",
+        { action: "submit" }
+      );
 
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", 
-          Accept: "application/json",
-        },
-        body: JSON.stringify(data), 
-      });
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
 
-      if (res.ok) {
-        form.reset();
-        form.style.display = "none";
-        document.getElementById("form-message").classList.remove("hidden");
-      } else {
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (res.ok) {
+          form.reset();
+          form.style.display = "none";
+          document.getElementById("form-message").classList.remove("hidden");
+        } else {
+          alert("Error sending message");
+        }
+      } catch (error) {
         alert("Error sending message");
+        console.error(error);
       }
-    } catch (error) {
-      alert("Error sending message");
-      console.error(error);
-    }
+    });
   });
 </script>
