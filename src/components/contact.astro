@@ -61,9 +61,7 @@
   </div>
 </section>
 
-<script
-  src="https://www.google.com/recaptcha/api.js?render=6Ldn92IrAAAAAE-6B4wBtYpJ8H-SW46hgX0mWkQz"
-></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 <script type="module" is:inline>
   const form = document.getElementById("contact-form");
@@ -79,6 +77,7 @@
 
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
+      data.recaptchaToken = token; // aggiungi il token ai dati inviati
 
       try {
         const res = await fetch("/api/contact", {
