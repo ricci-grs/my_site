@@ -61,25 +61,30 @@
   </div>
 </section>
 
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6Ldn92IrAAAAAE-6B4wBtYpJ8H-SW46hgX0mWkQz" async defer></script>
 
 <script type="module" is:inline>
   const form = document.getElementById("contact-form");
+  console.log("[ContactForm] Setup complete, form element:", form);
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    console.log("[ContactForm] Submit intercepted, starting reCAPTCHA...");
 
     grecaptcha.ready(async () => {
-      const token = await grecaptcha.execute(
-        "6Ldn92IrAAAAAE-6B4wBtYpJ8H-SW46hgX0mWkQz",
-        { action: "submit" }
-      );
-
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
-      data.recaptchaToken = token; // aggiungi il token ai dati inviati
-
+      console.log("[reCAPTCHA] grecaptcha.ready triggered");
       try {
+        const token = await grecaptcha.execute(
+          "6Ldn92IrAAAAAE-6B4wBtYpJ8H-SW46hgX0mWkQz",
+          { action: "submit" }
+        );
+        console.log("[reCAPTCHA] Token received:", token);
+
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+        data.recaptchaToken = token;
+        console.log("[ContactForm] Data prepared for sending:", data);
+
         const res = await fetch("/api/contact", {
           method: "POST",
           headers: {
@@ -88,17 +93,20 @@
           },
           body: JSON.stringify(data),
         });
+        console.log("[ContactForm] Response status:", res.status);
 
         if (res.ok) {
+          console.log("[ContactForm] Success, resetting form...");
           form.reset();
           form.style.display = "none";
           document.getElementById("form-message").classList.remove("hidden");
         } else {
+          console.error("[ContactForm] Server returned error:", await res.text());
           alert("Error sending message");
         }
       } catch (error) {
-        alert("Error sending message");
-        console.error(error);
+        console.error("[ContactForm] fetch or reCAPTCHA error:", error);
+        alert("Error sending message (check console)");
       }
     });
   });
